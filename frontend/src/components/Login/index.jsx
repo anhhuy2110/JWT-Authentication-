@@ -1,16 +1,15 @@
-import React from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Flex } from 'antd';
-import '@ant-design/v5-patch-for-react-19';
+import React from "react";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Flex } from "antd";
+import "@ant-design/v5-patch-for-react-19";
 
 const Login = () => {
-  
-  const onFinish = async(values) => {
-   try {
-      const response = await fetch('https://localhost:7125/scalar/v1#tag/auth/post/api/Auth/login', { 
-        method: 'POST',
+  const onFinish = async (values) => {
+    try {
+      const response = await fetch("https://localhost:7125/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: values.username,
@@ -19,12 +18,12 @@ const Login = () => {
       });
 
       if (!response.ok) {
-        alert('Invalid credentials');
+        alert("Invalid credentials");
+      } else {
+        alert("Login successful");
       }
-      const data = await response.json();
-      alert(data.message || 'Login successful');
     } catch (error) {
-      alert(error.message || 'Login failed');
+      alert(error.message || "Login failed");
     }
   };
   return (
@@ -36,15 +35,19 @@ const Login = () => {
     >
       <Form.Item
         name="username"
-        rules={[{ required: true, message: 'Please input your Username!' }]}
+        rules={[{ required: true, message: "Please input your Username!" }]}
       >
         <Input prefix={<UserOutlined />} placeholder="Username" />
       </Form.Item>
       <Form.Item
         name="password"
-        rules={[{ required: true, message: 'Please input your Password!' }]}
+        rules={[{ required: true, message: "Please input your Password!" }]}
       >
-        <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+        <Input
+          prefix={<LockOutlined />}
+          type="password"
+          placeholder="Password"
+        />
       </Form.Item>
       <Form.Item>
         <Flex justify="space-between" align="center">
