@@ -5,8 +5,27 @@ import '@ant-design/v5-patch-for-react-19';
 
 const Login = () => {
   
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
+  const onFinish = async(values) => {
+   try {
+      const response = await fetch('https://localhost:7125/scalar/v1#tag/auth/post/api/Auth/login', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password,
+        }),
+      });
+
+      if (!response.ok) {
+        alert('Invalid credentials');
+      }
+      const data = await response.json();
+      alert(data.message || 'Login successful');
+    } catch (error) {
+      alert(error.message || 'Login failed');
+    }
   };
   return (
     <Form

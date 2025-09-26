@@ -17,6 +17,16 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 
 builder.Services.AddScoped<IAuthService, AuthServices>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", builder =>
+    {
+        builder.WithOrigins("http://localhost:5173") // Allow frontend origin
+               .AllowAnyMethod()                    // Allow GET, POST, etc.
+               .AllowAnyHeader();                   // Allow headers like Content-Type
+    });
+});
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+app.UseCors("AllowReactApp"); // Apply CORS policy
 
 app.UseHttpsRedirection();
 
