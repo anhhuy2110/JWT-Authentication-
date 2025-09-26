@@ -1,4 +1,5 @@
 using api.Controllers;
+using api.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -13,6 +14,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Userdatabase")));
+
+builder.Services.AddScoped<IAuthService, AuthServices>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
