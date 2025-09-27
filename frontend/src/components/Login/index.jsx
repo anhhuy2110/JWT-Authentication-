@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
 import "@ant-design/v5-patch-for-react-19";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
-const Login = () => {
+
+const Login = () => { 
+
+  const [userName, setUserName] = useState('');
+
+  const navigate = useNavigate();
+
   const onFinish = async (values) => {
     try {
       const response = await fetch("https://localhost:7125/api/auth/login", {
@@ -17,11 +23,17 @@ const Login = () => {
           password: values.password,
         }),
       });
+     
 
       if (!response.ok) {
         alert("Invalid credentials");
       } else {
-        alert("Login successful");
+        // const data = response.json();
+        // console.log(data);
+        console.log("Ok");
+        navigate('/dashboard',{
+          //  userName : {state: { userData: data.userName }}
+        });
       }
     } catch (error) {
       alert(error.message || "Login failed");
@@ -42,12 +54,20 @@ const Login = () => {
         initialValues={{ remember: true }}
         style={{ maxWidth: 360 }}
         onFinish={onFinish}
+        action="/.dashboard"
       >
         <Form.Item
           name="username"
           rules={[{ required: true, message: "Please input your Username!" }]}
+          
         >
-          <Input prefix={<UserOutlined />} placeholder="Username" />
+          <Input 
+            prefix={<UserOutlined />} 
+            placeholder="Username" 
+            onChange={(e)=>{
+              setUserName(e.target.value);
+            }}
+            />
         </Form.Item>
         <Form.Item
           name="password"
