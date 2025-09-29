@@ -1,6 +1,7 @@
 ﻿using api.Entities;
 using api.Models;
 using api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,18 @@ namespace api.Controllers
             return Ok(token);
         }
 
-      
+        [Authorize]
+        [HttpGet]
+        public IActionResult AuthenticatedOnlyEnpoint()
+        {
+            return Ok("You're authenticated!");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("admin-only")]
+        public IActionResult AdminOnlyEndpoint()
+        {
+            return Ok("You're Admin!");
+        }
     }
 }
