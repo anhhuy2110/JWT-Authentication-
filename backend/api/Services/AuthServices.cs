@@ -61,8 +61,8 @@ namespace api.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var tokenDescriptior = new JwtSecurityToken(
-                issuer: configuration.GetValue<string>("AppSetting:Issuer"),
-                audience: configuration.GetValue<string>("AppSetting:Audience"),
+                issuer: configuration.GetValue<string>("AppSettings:Issuer"),
+                audience: configuration.GetValue<string>("AppSettings:Audience"),
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds);
